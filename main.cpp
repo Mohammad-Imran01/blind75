@@ -112,6 +112,30 @@ namespace Array {
         }
     }
  
+    /*Suppose an array of length n sorted in ascending order is rotated between 1 and n times. Return the smallest element in O(log n) time*/
+    namespace minInRotatedSortedArray {
+        void bSearch(const vector<int>& arr) {
+            int mini = INT_MAX;
+            int left = 0, right = arr.size()-1;
+
+            while (left <= right) {
+                int mid = left + (right-left)/2;
+                if(arr.at(left) <= arr.at(right)) {
+                    mini = min(mini, arr.at(left));
+                    break;
+                } // left < right: left is ans
+                if(arr.at(left) <= arr.at(mid)) {
+                    mini = min(mini, arr.at(left));
+                    left = mid+1;
+                } else {
+                    mini = min(mini, arr.at(mid));
+                    right = mid-1;
+                }
+            }
+
+            cout << "\nMin in rotated sorted array: " << mini;
+        }
+    }
 }
 
 int main( ){
@@ -125,6 +149,8 @@ int main( ){
         cout << num << " ";
 
     cout << "\nMax subArray: " << Array::maximumSubArray::getMaximumSubArray({4, -2, 3, 4});
+
+    Array::minInRotatedSortedArray::bSearch({11, 22, 33, 44, 10});
 
     return 0;   
 }
