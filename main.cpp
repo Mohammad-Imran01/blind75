@@ -187,6 +187,50 @@ namespace Array {
             return res;
         }
     }
+
+
+    // Also Known as trapping the rainwater problem. Given an array of heights return the maximum possible area
+    namespace maxArea {
+        // traverse through the array and returns the calc max area Time: O(n^2) space is constant.
+        int twoLoops(vector<int> heights) {
+            if(heights.size() < 2)
+                return 0;
+
+            const int len = heights.size();
+            
+            int maxi = INT_MIN;
+
+            for(int i = 0; i < len-1; ++i) {
+                for(int j = i+1; j < len; ++j) {
+                    const int curr = min(heights[i], heights[j]) * (j-i);
+                    maxi = max(maxi, curr);
+                }
+            }
+
+            return maxi;
+        }
+
+        // finds solution in single traversal Time: O(n) and space is constant.
+        int singleTraversal(vector<int> heights) {
+            int left = 0, right = heights.size()-1;
+            int maxi = INT_MIN;
+
+            while(left < right) {
+                const int l = heights[left];
+                const int r = heights[right];
+
+                if(l < r) {
+                    maxi = max(maxi, l * (right-left));
+                    ++left;
+                } else {
+                    maxi = max(maxi, r * (right-left));
+                    --right;
+                }
+            }
+
+            return maxi;
+        }
+    }
 }
 
 int main( ){
@@ -202,6 +246,8 @@ int main( ){
     cout << "\nMax subArray: " << Array::maximumSubArray::getMaximumSubArray({4, -2, 3, 4});
 
     Array::minInRotatedSortedArray::bSearch({11, 22, 33, 44, 10});
+
+    Array::threeSum::loopOnly({1,2,3,4,-8,2,-4,-5});
 
     return 0;   
 }
