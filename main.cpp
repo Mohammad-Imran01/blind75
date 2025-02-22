@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// Contains several funtions to solve problems of Array section from the Blind 75 problem set.
 namespace Array {
     /*1. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
     You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -231,23 +232,68 @@ namespace Array {
             return maxi;
         }
     }
-}
+} /* 
+namespace for core array problems*/
+
+// Contains several funtions to solve problems of Binary section from the Blind 75 problem set.
+namespace Binary
+{
+    // uses a simple while loop. Time O(log n), Space constant.
+    int addWithoutAdditionOperator(int a, int b) {
+        while(b) {
+            int c = a&b; //carry: both is 1's so take it and move further
+            a ^= b;
+            b = c << 1;
+        }
+        return a;
+    }
+    int countSetBits(int n) {
+        int res = 0;
+        while(n) {
+            res += (n&1);
+            n >>= 1;
+        }
+        return res;
+    }
+
+    vector<int> generateZeroToNSetBits(int n) {
+        ++n;
+        vector<int> res(n, 0);
+
+        for(int i = 0; i < n; ++i) 
+            res[i] = countSetBits(i);
+
+        return res;
+    }
+} // namespace Binary
 
 int main( ){
-    Array::twoSum::loop( { 2, 7, 11, 15 }, 9 );
-    cout << Array::buySellStock::maxProfit( { 7,1,5,3,6,4 } );
-    cout << endl << Array::containsDuplicate::useSet( { 1, 2, 3, 1 } );
-    cout << endl << Array::containsDuplicate::useUnorderedMap( { 1, 2, 3, 1 } );
+    // Array::twoSum::loop( { 2, 7, 11, 15 }, 9 );
+    // cout << Array::buySellStock::maxProfit( { 7,1,5,3,6,4 } );
+    // cout << endl << Array::containsDuplicate::useSet( { 1, 2, 3, 1 } );
+    // cout << endl << Array::containsDuplicate::useUnorderedMap( { 1, 2, 3, 1 } );
     
-    cout << endl;
-    for(const int& num: Array::productOfArrayExceptSelf::productExceptSelf({1, 2, 3, 4}))
-        cout << num << " ";
+    // cout << endl;
+    // for(const int& num: Array::productOfArrayExceptSelf::productExceptSelf({1, 2, 3, 4}))
+    //     cout << num << " ";
 
-    cout << "\nMax subArray: " << Array::maximumSubArray::getMaximumSubArray({4, -2, 3, 4});
+    // cout << "\nMax subArray: " << Array::maximumSubArray::getMaximumSubArray({4, -2, 3, 4});
 
-    Array::minInRotatedSortedArray::bSearch({11, 22, 33, 44, 10});
+    // Array::minInRotatedSortedArray::bSearch({11, 22, 33, 44, 10});
 
-    Array::threeSum::loopOnly({1,2,3,4,-8,2,-4,-5});
+    // Array::threeSum::loopOnly({1,2,3,4,-8,2,-4,-5});
+
+    // cout << "\nSet bits: " << Binary::countSetBits(5) << "\n";
+
+    // auto res = Binary::generateZeroToNSetBits(5);
+
+
+    // for(const auto& num: res) {
+    //     cout << num << ", ";
+    // }
+
+
+    
 
     return 0;   
 }
