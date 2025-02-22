@@ -1,2 +1,2 @@
 # blind75
-Code solution for famous Blind 75 problems
+Code solution for famous Blind 75 problem set.
