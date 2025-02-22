@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
 
 #define STARTS_WITH 786
 
@@ -134,6 +135,56 @@ namespace Array {
             }
 
             cout << "\nMin in rotated sorted array: " << mini;
+        }
+    }
+
+    /*4. Given a list of numbers, return a list of triplets such that the sum of the triplet is zero.*/
+    namespace threeSum {
+        // Uses loop to traverse and a set to store unique triplets. Time complexity O(n^2 log n), extra space O(n).
+        vector<vector<int>> useSet(vector<int> nums) {
+            set<vector<int>> resSet;
+            sort(begin(nums), end(nums));
+            const int len = nums.size();
+            for(int i = 0; i < len-2; ++i) {
+                int left = i+1, right = len-1;
+                while(left < right) {
+                    const int curr = nums[i] + nums[left] + nums[right];
+                    if(curr > 0) --right;
+                    else if (curr < 0) ++left;
+                    else {
+                        resSet.insert({nums[i], nums[left++], nums[right--]});
+                    }
+                }
+            }
+            return vector<vector<int>>(resSet.begin(), resSet.end());
+        } 
+        // Uses loop to traverse. Time complexity O(n^2) and constant space.
+        vector<vector<int>> loopOnly(vector<int> nums) {
+            if(nums.size() < 3)
+                return {};
+            sort(nums.begin(), nums.end());
+            const int len = nums.size();
+            vector<vector<int>> res;
+            for(int i = 0; i < len-2; ++i) {
+                while((i > 0) && (i < len) && (nums[i] == nums[i-1])) ++i;
+                int left = i+1, right = len-1;
+                while(left < right) {
+                    const int curr = nums[i] + nums[left] + nums[right];
+                    if(curr > 0) --right;
+                    else if(curr < 0) ++left;
+                    else {
+                        res.push_back({nums[i], nums[left], nums[right]});
+
+                        while((left < right) && (nums[left] == nums[left+1])) ++left;
+                        while((right > left) && (nums[right] == nums[right-1])) --right;
+
+                        ++left;
+                        --right;
+                    }
+                }
+            }
+
+            return res;
         }
     }
 }
