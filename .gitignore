@@ -1,4 +1,4 @@
-# Ignore Visual Studio Code settings
+# Ignore Visual Studio Code settings.
 .vscode/
 
 # Ignore build directories
