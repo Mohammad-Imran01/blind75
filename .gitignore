@@ -1,0 +1,39 @@
+# Ignore Visual Studio Code settings
+.vscode/
+
+# Ignore build directories
+build/
+cmake-build-*/
+
+# Ignore compiled object files
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.libs
+*.a
+*.lib
+
+# Ignore compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Ignore executable files
+*.exe
+*.out
+*.app
+
+# Ignore debug files
+*.dSYM/
+*.stackdump
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.log
+
+# Ignore backup files
+*.bak
+*.sw
