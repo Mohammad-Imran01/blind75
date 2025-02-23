@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
+#include <cinttypes>
 
 #define STARTS_WITH 786
 
@@ -263,6 +264,33 @@ namespace Binary
         for(int i = 0; i < n; ++i) 
             res[i] = countSetBits(i);
 
+        return res;
+    }
+
+    int missingNumberLoop(vector<int> nums) {
+        vector<int> temp(nums.size()+1, -1);
+        for(const int& num: nums)
+            temp[num]=num;
+        for(int i = 0; i < temp.size(); ++i)
+            if(temp.at(i) == -1)
+                return i;
+        return -1;
+    }
+    int missingNumXor(vector<int> nums) {
+        int res = nums.size();
+
+        for(int i = 0; i < nums.size(); ++i)
+            res = i ^ res ^ nums[i];
+
+        return res;
+    }
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t res = 0;
+        const int len = sizeof(n)*8;
+        for(int i = 0; i < len; ++i) {
+            res = (res << 1) | (n & 1);
+            n >>= 1;
+        }
         return res;
     }
 } // namespace Binary
