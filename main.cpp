@@ -11,316 +11,331 @@
 
 using namespace std;
 
-// Contains several funtions to solve problems of Array section from the Blind 75 problem set.
+//------------------------======================================================
+// Contains several functions to solve problems of the Array section from the Blind 75 problem set.
 namespace Array {
-    /*1. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
-    You may assume that each input would have exactly one solution, and you may not use the same element twice.
-    You can return the answer in any order.*/
-    namespace twoSum {
-        // Loop based two sum solution with O(n^2) time complexity and constant space complexity.
-        vector<int> loop(vector<int> nums, int target) {
-            vector<int> res{-1, -1};
-            const int len = nums.size();
-            for(int i = 0; i < len-1; ++i) {
-                for(int j = i+1; j < len; ++j) {
-                    if(nums[i] + nums[j] == target)
-                        return {i, j};
-                }
+
+    /* 1. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+       You may assume that each input would have exactly one solution, and you may not use the same element twice.
+       You can return the answer in any order. */
+
+    // Time Complexity: O(n^2), Space Complexity: O(1)
+    vector<int> twoSumLoop(vector<int> nums, int target) {
+        vector<int> res{-1, -1};
+        const int len = nums.size();
+        for(int i = 0; i < len-1; ++i) {
+            for(int j = i+1; j < len; ++j) {
+                if(nums[i] + nums[j] == target)
+                    return {i, j};
             }
-            return res;
         }
-        // Solve the two sum problem using hash map with O(n) time complexity and O(n) space complexity.
-        pair<int, int> hashMap( vector<int> nums, int target ) {
-            unordered_map<int, int> mp;
-            const int len = nums.size();
-            for(int i = 0; i < len; ++i) {
-                if(mp.count(target - nums[i]))
-                    return {mp[target-nums[i]], i};
-                mp[nums[i]] = i;
-            }
-            return {-1, -1};    
+        return res;
+    }
+
+    // Time Complexity: O(n), Space Complexity: O(n)
+    pair<int, int> twoSumHashMap(vector<int> nums, int target) {
+        unordered_map<int, int> mp;
+        const int len = nums.size();
+        for(int i = 0; i < len; ++i) {
+            if(mp.count(target - nums[i]))
+                return {mp[target-nums[i]], i};
+            mp[nums[i]] = i;
         }
+        return {-1, -1};    
     }
     
 
-    /*2. You are given an array prices where prices[i] is the price of a given stock on the ith day.
-    You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
-    Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.*/
-    namespace buySellStock {
-        int maxProfit(vector<int> prices) {
-            if(prices.size() == 0) 
-                return 0;
-            int maxProfit = 0, minPrice = prices[0];
-            const int len = prices.size();
-            for(int i = 1; i < len; ++i) {
-                minPrice = min(minPrice, prices[i]);
-            maxProfit = max(maxProfit,prices[i] - minPrice);    
-            }
-            return maxProfit;
+    /* 2. You are given an array prices where prices[i] is the price of a given stock on the ith day.
+       You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+       Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0. */
+
+    // Time Complexity: O(n), Space Complexity: O(1)
+    int maxProfit(vector<int> prices) {
+        if(prices.size() == 0) 
+            return 0;
+        int maxProfit = 0, minPrice = prices[0];
+        const int len = prices.size();
+        for(int i = 1; i < len; ++i) {
+            minPrice = min(minPrice, prices[i]);
+            maxProfit = max(maxProfit, prices[i] - minPrice);    
         }
+        return maxProfit;
     }
 
 
-    /*3. Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct. */
-    namespace containsDuplicate {
-        bool useSet(vector<int> nums) {
-            return set(nums.begin(), nums.end()).size() != nums.size();
-        }
-        bool useUnorderedMap(vector<int> nums) {
-            unordered_map<int, int> mp;
-            for(const int& num: nums) {
-                if(mp.count(num))
-                    return true;
-                ++mp[num];
-            }
-            return false;
-        }
+    /* 3. Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct. */
+
+    // Time Complexity: O(n log n), Space Complexity: O(n)
+    bool containsDuplicateUseSet(vector<int> nums) {
+        return set<int>(nums.begin(), nums.end()).size() != nums.size();
     }
 
-    /*Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i]. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer. You must write an algorithm that runs in O(n) time and without using the division operation.  */
-    namespace productOfArrayExceptSelf {
-        vector<int> productExceptSelf(vector<int> nums) {
-            const int len = nums.size();
-
-            vector<int> res(len, 1);
-    
-            int left = 1, right = 1;
-    
-            for(int i = 0; i < len; ++i) {
-                res[i] *= left;
-                res[len-1-i] *= right;
-                left *= nums[i];
-                right *= nums[len-1-i];
-            }
-    
-            return res;
+    // Time Complexity: O(n), Space Complexity: O(n)
+    bool containsDuplicateUseUnorderedMap(vector<int> nums) {
+        unordered_map<int, int> mp;
+        for(const int& num: nums) {
+            if(mp.count(num))
+                return true;
+            ++mp[num];
         }
+        return false;
     }
 
-    /*Given an integer array nums, find the subarray with the largest sum, and return its sum.*/
-    namespace maximumSubArray {
-        int getMaximumSubArray(const vector<int>& arr) {
-            if(arr.empty())
-                return 0;
-            int maxi = arr.front();
-            int currMaxi = 0;
+    /* 4. Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+       The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer. You must write an algorithm that runs in O(n) time and without using the division operation. */
 
-            for(const int& num: arr) {
-                currMaxi = max(0, currMaxi);
-                currMaxi += num;
-                maxi = max(maxi, currMaxi);
-            }
-
-            return maxi;
+    // Time Complexity: O(n), Space Complexity: O(1) (excluding the output array)
+    vector<int> productExceptSelf(vector<int> nums) {
+        const int len = nums.size();
+        vector<int> res(len, 1);
+    
+        int left = 1, right = 1;
+    
+        for(int i = 0; i < len; ++i) {
+            res[i] *= left;
+            res[len-1-i] *= right;
+            left *= nums[i];
+            right *= nums[len-1-i];
         }
+    
+        return res;
+    }
+
+    /* 5. Given an integer array nums, find the subarray with the largest sum, and return its sum. */
+
+    // Time Complexity: O(n), Space Complexity: O(1)
+    int getMaximumSubArray(const vector<int>& arr) {
+        if(arr.empty())
+            return 0;
+        int maxi = arr.front();
+        int currMaxi = 0;
+
+        for(const int& num: arr) {
+            currMaxi = max(0, currMaxi);
+            currMaxi += num;
+            maxi = max(maxi, currMaxi);
+        }
+
+        return maxi;
     }
  
-    /*Suppose an array of length n sorted in ascending order is rotated between 1 and n times. Return the smallest element in O(log n) time*/
-    namespace minInRotatedSortedArray {
-        void bSearch(const vector<int>& arr) {
-            int mini = INT_MAX;
-            int left = 0, right = arr.size()-1;
+    /* 6. Suppose an array of length n sorted in ascending order is rotated between 1 and n times. Return the smallest element in O(log n) time. */
 
-            while (left <= right) {
-                int mid = left + (right-left)/2;
-                if(arr.at(left) <= arr.at(right)) {
-                    mini = min(mini, arr.at(left));
-                    break;
-                } // left < right: left is ans
-                if(arr.at(left) <= arr.at(mid)) {
-                    mini = min(mini, arr.at(left));
-                    left = mid+1;
-                } else {
-                    mini = min(mini, arr.at(mid));
-                    right = mid-1;
-                }
+    // Time Complexity: O(log n), Space Complexity: O(1)
+    void findMinInRotatedSortedArray(const vector<int>& arr) {
+        int mini = INT_MAX;
+        int left = 0, right = arr.size()-1;
+
+        while (left <= right) {
+            int mid = left + (right-left)/2;
+            if(arr.at(left) <= arr.at(right)) {
+                mini = min(mini, arr.at(left));
+                break;
             }
-
-            cout << "\nMin in rotated sorted array: " << mini;
+            if(arr.at(left) <= arr.at(mid)) {
+                mini = min(mini, arr.at(left));
+                left = mid+1;
+            } else {
+                mini = min(mini, arr.at(mid));
+                right = mid-1;
+            }
         }
+
+        cout << "\nMin in rotated sorted array: " << mini;
     }
 
-    /*4. Given a list of numbers, return a list of triplets such that the sum of the triplet is zero.*/
-    namespace threeSum {
-        // Uses loop to traverse and a set to store unique triplets. Time complexity O(n^2 log n), extra space O(n).
-        vector<vector<int>> useSet(vector<int> nums) {
-            set<vector<int>> resSet;
-            sort(begin(nums), end(nums));
-            const int len = nums.size();
-            for(int i = 0; i < len-2; ++i) {
-                int left = i+1, right = len-1;
-                while(left < right) {
-                    const int curr = nums[i] + nums[left] + nums[right];
-                    if(curr > 0) --right;
-                    else if (curr < 0) ++left;
-                    else {
-                        resSet.insert({nums[i], nums[left++], nums[right--]});
-                    }
-                }
-            }
-            return vector<vector<int>>(resSet.begin(), resSet.end());
-        } 
-        // Uses loop to traverse. Time complexity O(n^2) and constant space.
-        vector<vector<int>> loopOnly(vector<int> nums) {
-            if(nums.size() < 3)
-                return {};
-            sort(nums.begin(), nums.end());
-            const int len = nums.size();
-            vector<vector<int>> res;
-            for(int i = 0; i < len-2; ++i) {
-                while((i > 0) && (i < len) && (nums[i] == nums[i-1])) ++i;
-                int left = i+1, right = len-1;
-                while(left < right) {
-                    const int curr = nums[i] + nums[left] + nums[right];
-                    if(curr > 0) --right;
-                    else if(curr < 0) ++left;
-                    else {
-                        res.push_back({nums[i], nums[left], nums[right]});
+    /* 7. Given a list of numbers, return a list of triplets such that the sum of the triplet is zero. */
 
-                        while((left < right) && (nums[left] == nums[left+1])) ++left;
-                        while((right > left) && (nums[right] == nums[right-1])) --right;
-
-                        ++left;
-                        --right;
-                    }
-                }
-            }
-
-            return res;
-        }
-    }
-
-
-    // Also Known as trapping the rainwater problem. Given an array of heights return the maximum possible area
-    namespace maxArea {
-        // traverse through the array and returns the calc max area Time: O(n^2) space is constant.
-        int twoLoops(vector<int> heights) {
-            if(heights.size() < 2)
-                return 0;
-
-            const int len = heights.size();
-            
-            int maxi = INT_MIN;
-
-            for(int i = 0; i < len-1; ++i) {
-                for(int j = i+1; j < len; ++j) {
-                    const int curr = min(heights[i], heights[j]) * (j-i);
-                    maxi = max(maxi, curr);
-                }
-            }
-
-            return maxi;
-        }
-
-        // finds solution in single traversal Time: O(n) and space is constant.
-        int singleTraversal(vector<int> heights) {
-            int left = 0, right = heights.size()-1;
-            int maxi = INT_MIN;
-
+    // Time Complexity: O(n^2 log n), Space Complexity: O(n)
+    vector<vector<int>> threeSumUseSet(vector<int> nums) {
+        set<vector<int>> resSet;
+        sort(begin(nums), end(nums));
+        const int len = nums.size();
+        for(int i = 0; i < len-2; ++i) {
+            int left = i+1, right = len-1;
             while(left < right) {
-                const int l = heights[left];
-                const int r = heights[right];
+                const int curr = nums[i] + nums[left] + nums[right];
+                if(curr > 0) --right;
+                else if (curr < 0) ++left;
+                else {
+                    resSet.insert({nums[i], nums[left++], nums[right--]});
+                }
+            }
+        }
+        return vector<vector<int>>(resSet.begin(), resSet.end());
+    } 
 
-                if(l < r) {
-                    maxi = max(maxi, l * (right-left));
+    // Time Complexity: O(n^2), Space Complexity: O(1) (excluding the output array)
+    vector<vector<int>> threeSumLoopOnly(vector<int> nums) {
+        if(nums.size() < 3)
+            return {};
+        sort(nums.begin(), nums.end());
+        const int len = nums.size();
+        vector<vector<int>> res;
+        for(int i = 0; i < len-2; ++i) {
+            while((i > 0) && (i < len) && (nums[i] == nums[i-1])) ++i;
+            int left = i+1, right = len-1;
+            while(left < right) {
+                const int curr = nums[i] + nums[left] + nums[right];
+                if(curr > 0) --right;
+                else if(curr < 0) ++left;
+                else {
+                    res.push_back({nums[i], nums[left], nums[right]});
+
+                    while((left < right) && (nums[left] == nums[left+1])) ++left;
+                    while((right > left) && (nums[right] == nums[right-1])) --right;
+
                     ++left;
-                } else {
-                    maxi = max(maxi, r * (right-left));
                     --right;
                 }
             }
-
-            return maxi;
         }
-    }
-} /* 
-namespace for core array problems*/
 
-// Contains several funtions to solve problems of Binary section from the Blind 75 problem set.
-namespace Binary
-{
-    // uses a simple while loop. Time O(log n), Space constant.
+        return res;
+    }
+
+
+    /* 8. Also Known as the trapping the rainwater problem. Given an array of heights, return the maximum possible area. */
+
+    // Time Complexity: O(n^2), Space Complexity: O(1)
+    int maxAreaTwoLoops(vector<int> heights) {
+        if(heights.size() < 2)
+            return 0;
+
+        const int len = heights.size();
+        int maxi = INT_MIN;
+
+        for(int i = 0; i < len-1; ++i) {
+            for(int j = i+1; j < len; ++j) {
+                const int curr = min(heights[i], heights[j]) * (j-i);
+                maxi = max(maxi, curr);
+            }
+        }
+
+        return maxi;
+    }
+
+    // Time Complexity: O(n), Space Complexity: O(1)
+    int maxAreaSingleTraversal(vector<int> heights) {
+        int left = 0, right = heights.size()-1;
+        int maxi = INT_MIN;
+
+        while(left < right) {
+            const int l = heights[left];
+            const int r = heights[right];
+
+            if(l < r) {
+                maxi = max(maxi, l * (right-left));
+                ++left;
+            } else {
+                maxi = max(maxi, r * (right-left));
+                --right;
+            }
+        }
+
+        return maxi;
+    }
+} // End of namespace Array
+//------------------------======================================================
+
+//------------------------======================================================
+// Contains several functions to solve problems of the Binary section from the Blind 75 problem set.
+namespace Binary {
+
+    /* 1. Add two integers without using the addition operator.
+       Approach: Use bitwise operations to simulate addition.
+       - Calculate the carry using AND operation.
+       - Use XOR to add the numbers without considering the carry.
+       - Shift the carry left by 1 and repeat until there is no carry.
+       Time Complexity: O(log n), Space Complexity: O(1) */
     int addWithoutAdditionOperator(int a, int b) {
         while(b) {
-            int c = a&b; //carry: both is 1's so take it and move further
-            a ^= b;
-            b = c << 1;
+            int c = a & b; // Carry: both bits are 1, so take it and move further
+            a ^= b;        // Sum of bits without considering carry
+            b = c << 1;     // Shift carry to the left by 1
         }
         return a;
     }
+
+    /* 2. Count the number of set bits (1s) in the binary representation of a number.
+       Approach: Iterate through each bit of the number and count the set bits.
+       Time Complexity: O(log n), Space Complexity: O(1) */
     int countSetBits(int n) {
         int res = 0;
         while(n) {
-            res += (n&1);
-            n >>= 1;
+            res += (n & 1); // Check if the least significant bit is set
+            n >>= 1;         // Right shift to check the next bit
         }
         return res;
     }
 
+    /* 3. Generate a vector where each element represents the count of set bits for numbers from 0 to n.
+       Approach: Use the `countSetBits` function to compute the number of set bits for each number.
+       Time Complexity: O(n log n), Space Complexity: O(n) */
     vector<int> generateZeroToNSetBits(int n) {
-        ++n;
+        ++n; // Include n in the result
         vector<int> res(n, 0);
 
         for(int i = 0; i < n; ++i) 
-            res[i] = countSetBits(i);
+            res[i] = countSetBits(i); // Compute set bits for each number
 
         return res;
     }
 
+    /* 4. Find the missing number in a sequence of numbers from 0 to n.
+       Approach: Use a temporary array to mark the presence of numbers and find the missing one.
+       Time Complexity: O(n), Space Complexity: O(n) */
     int missingNumberLoop(vector<int> nums) {
-        vector<int> temp(nums.size()+1, -1);
+        vector<int> temp(nums.size() + 1, -1); // Temporary array to mark presence
         for(const int& num: nums)
-            temp[num]=num;
+            temp[num] = num; // Mark the number as present
         for(int i = 0; i < temp.size(); ++i)
-            if(temp.at(i) == -1)
+            if(temp.at(i) == -1) // Find the missing number
                 return i;
-        return -1;
+        return -1; // If no missing number found
     }
+
+    /* 5. Find the missing number in a sequence of numbers from 0 to n using XOR.
+       Approach: Use XOR to cancel out all numbers present in the array, leaving the missing number.
+       Time Complexity: O(n), Space Complexity: O(1) */
     int missingNumXor(vector<int> nums) {
-        int res = nums.size();
+        int res = nums.size(); // Initialize result with n
 
         for(int i = 0; i < nums.size(); ++i)
-            res = i ^ res ^ nums[i];
+            res = i ^ res ^ nums[i]; // XOR all indices and numbers
 
-        return res;
+        return res; // The missing number
     }
+
+    /* 6. Reverse the bits of a 32-bit unsigned integer.
+       Approach: Iterate through each bit of the number and construct the reversed number.
+       Time Complexity: O(1) (since it's always 32 bits), Space Complexity: O(1) */
     uint32_t reverseBits(uint32_t n) {
         uint32_t res = 0;
-        const int len = sizeof(n)*8;
+        const int len = sizeof(n) * 8; // Number of bits in the integer
+
         for(int i = 0; i < len; ++i) {
-            res = (res << 1) | (n & 1);
-            n >>= 1;
+            res = (res << 1) | (n & 1); // Shift result left and add the least significant bit of n
+            n >>= 1; // Right shift n to process the next bit
         }
+
         return res;
     }
 } // namespace Binary
+//------------------------======================================================
+
+
+//------------------------======================================================
+namespace dp {}
+//------------------------======================================================
+
+
+
+
+
 
 int main( ){
-    // Array::twoSum::loop( { 2, 7, 11, 15 }, 9 );
-    // cout << Array::buySellStock::maxProfit( { 7,1,5,3,6,4 } );
-    // cout << endl << Array::containsDuplicate::useSet( { 1, 2, 3, 1 } );
-    // cout << endl << Array::containsDuplicate::useUnorderedMap( { 1, 2, 3, 1 } );
     
-    // cout << endl;
-    // for(const int& num: Array::productOfArrayExceptSelf::productExceptSelf({1, 2, 3, 4}))
-    //     cout << num << " ";
-
-    // cout << "\nMax subArray: " << Array::maximumSubArray::getMaximumSubArray({4, -2, 3, 4});
-
-    // Array::minInRotatedSortedArray::bSearch({11, 22, 33, 44, 10});
-
-    // Array::threeSum::loopOnly({1,2,3,4,-8,2,-4,-5});
-
-    // cout << "\nSet bits: " << Binary::countSetBits(5) << "\n";
-
-    // auto res = Binary::generateZeroToNSetBits(5);
-
-
-    // for(const auto& num: res) {
-    //     cout << num << ", ";
-    // }
-
-
     
 
     return 0;   
