@@ -10,6 +10,7 @@
 #define STARTS_WITH 786
 
 using namespace std;
+using VI2 = vector<vector<int>>;
 
 //------------------------======================================================
 // Contains several functions to solve problems of the Array section from the Blind 75 problem set.
@@ -326,7 +327,49 @@ namespace Binary {
 
 
 //------------------------======================================================
-namespace dp {}
+namespace dp {
+    //Time Complexity: O(2^n)
+    //Space Complexity: 𝑂(𝑛)
+    int climbStairs(int n) {
+        if(n <= 1) return 0;
+        return climbStairs(n-1) + climbStairs(n-2);
+    }
+    int climbStairMemoized(int n) {
+        vector<int> memo(n+1, 0);
+        memo[0] = memo[1] = 1;
+        for(int i = 2; i <= n; ++i) 
+            memo[i] = memo[i-1] + memo[i-2];
+        return memo.back();
+    }
+
+    // Number of minimum coins needed to sum up a target, using any given coin any number of times.
+    int coinChangeHelp(vector<int>& coins, vector<vector<int>> &dp, int amount, int ind) {
+        if(amount == 0) return 0;
+        if(amount < 0) return 1e8;
+        if(ind < 0 || ind >= coins.size()) return 1e8;
+
+        if(dp[ind][amount] != -1)
+            return dp[ind][amount];
+        
+
+        int take = 1e8;
+
+        if(amount >= coins[ind])
+            take = 1 + min(coinChangeHelp(coins, dp, amount - coins[ind], ind), coinChangeHelp(coins, dp, amount - coins[ind], ind+1));
+
+        return dp[ind][amount] = min(take, coinChangeHelp(coins, dp, amount, ind+1));
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        vector<vector<int>> dp(int(coins.size()+1), vector<int>(amount+1, -1));
+        const int res = coinChangeHelp(coins, dp, amount, 0);
+        return res >= 1e8 ? -1:res;
+    }
+
+
+
+
+} // namespace dp
+
 //------------------------======================================================
 
 
