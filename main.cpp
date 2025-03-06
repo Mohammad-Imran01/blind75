@@ -11,6 +11,7 @@
 
 using namespace std;
 using VI2 = vector<vector<int>>;
+using VI1 = vector<int>;
 
 //------------------------======================================================
 // Contains several functions to solve problems of the Array section from the Blind 75 problem set.
@@ -366,7 +367,39 @@ namespace dp {
     }
 
 
+    int lengthOfLIS(VI1& nums, VI2& dp, int ind, int lastInd) {
+        if(ind >= nums.size() || ind < 0)
+            return 0;
+        if(dp[ind][lastInd+1] != -1)
+            return dp[ind][lastInd+1];
+        int take = 0, ignore = lengthOfLIS(nums, dp, ind+1, lastInd);
+        if(lastInd == -1 || nums[ind] > nums[lastInd])
+            take = 1 + lengthOfLIS(nums, dp, ind+1, ind);
+        return dp[ind][lastInd+1] = max(take, ignore);
+    }
+    // Given an array return the length of the strictly increasing subsequence.
+    int lengthOfLIS (vector<int> nums) {
+        if(nums.size() < 2) return nums.size();
+        const int len = nums.size();
+        VI2 dp(len, VI1(len+1, -1));
+        
+        return lengthOfLIS(nums, dp, 0, -1);
+    }
+    
+    int lengthOfLISLoop(vector<int> nums) {
+        if(nums.size() < 2) return nums.size();
+        const int len = nums.size();
+        vector<int> dp(len, 1);
+        
+        for(int curr = 1; curr < len; ++curr) {
+            for(int last = 0; last < curr; ++last) {
+                if(nums[curr] > nums[last] && dp[curr] <= dp[last])
+                    dp[curr] = 1 + dp[last];
+            }
+        }
 
+        return *max_element(dp.begin(), dp.end());
+    }
 
 } // namespace dp
 
