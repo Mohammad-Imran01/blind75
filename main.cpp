@@ -401,6 +401,33 @@ namespace dp {
         return *max_element(dp.begin(), dp.end());
     }
 
+
+
+    // longest common substring
+    int LCS(string s1, string s2, int i1 = 0, int i2 = 0) {
+        if(i1 >= s1.size() || i2 >= s2.size() || i1 < 0 || i2 < 0)
+            return 0;
+        if(s1[i1] == s2[i2])
+            return 1+LCS(s1, s2, i1+1, i2+1);
+        return max(LCS(s1, s2, i1+1, i2), LCS(s1, s2, i1, i2+1));
+    }
+    int LCS(string s1, string s2) {
+        const int len1 = s1.size();
+        const int len2 = s2.size();
+        if(s1.empty() || s2.empty())
+            return 0;    
+        VI2 dp(len1+1, VI1(len2+1, 0));
+        for(int i = 1; i <= len1; ++i) {
+            for(int j = 1; j <= len2; ++j) {
+                if(s1[i-1] == s2[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else    
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+
+        return dp.back().back();
+    }
 } // namespace dp
 
 //------------------------======================================================
