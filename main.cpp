@@ -430,6 +430,9 @@ namespace dp {
     }
 
     // Word Break
+    bool isValid(const string& target, const vector<string>& words) {
+        return false;
+    }
 
 
 
