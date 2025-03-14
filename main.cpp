@@ -429,9 +429,23 @@ namespace dp {
         return dp.back().back();
     }
 
-    // Word Break
-    bool isValid(const string& target, const vector<string>& words) {
-        return true;
+
+ 
+    bool wordBreak(string s, vector<string>& wordDict) {
+        const int len = s.size();
+        vector<bool> dp(len+1, false);
+        dp.back() = true;
+
+        for(int i = len - 1; i >= 0; --i) {
+            for(const string& word: wordDict) {
+                const int n = word.size();
+                if(i + n <= len && s.substr(i, n) == word)
+                    dp[i] = dp[i+n];
+                if (dp[i]) break;  // Stop once dp[i] is true
+            }
+        }
+
+        return dp.front();
     }
 
 
