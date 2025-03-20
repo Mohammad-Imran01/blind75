@@ -471,6 +471,8 @@ namespace dp {
         VI2 res;
         VI1 curr;
         combinationSumHelp(res, curr, nums, 0, target);
+
+        return res;
     }
     //--------------------------------------------===============================
 
