@@ -493,6 +493,21 @@ namespace dp {
 
         return dp[ind] = res;
     }
+
+    // house robber circular
+    int rob(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        if(nums.size() < 2) return nums.front();
+
+        VI1 dp(nums.size(), -1);
+        const int res1 = houseRobber(nums, dp, 1);
+
+        dp = VI1(nums.size(), -1);
+        nums.pop_back();
+        const int res2 = houseRobber(nums, dp, 0);
+
+        return max(res1, res2);
+    }
     //--------------------------------------------===============================
 
 
