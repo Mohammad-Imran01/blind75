@@ -630,12 +630,7 @@ namespace dp
     {
     private:
         int dp[101][101];
-        UniquePaths()
-        {
-            memset(dp, -1, sizeof(dp));
-        }
 
-    private:
         int Solve(int m, int n, int i, int j)
         {
             if (i < 0 || j < 0)
@@ -649,6 +644,10 @@ namespace dp
         }
 
     public:
+        UniquePaths()
+        {
+            memset(dp, -1, sizeof(dp));
+        }
         int Solve(int m, int n)
         {
             return Solve(m, n, m - 1, n - 1);
