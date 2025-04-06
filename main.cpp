@@ -655,7 +655,7 @@ namespace dp
         }
     };
 
-    class Solution
+    class CanJump
     {
     public:
         bool canJump(vector<int> &nums, int i = 0)
