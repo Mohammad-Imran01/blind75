@@ -655,6 +655,24 @@ namespace dp
         }
     };
 
+    class Solution
+    {
+    public:
+        bool canJump(vector<int> &nums, int i = 0)
+        {
+            const int len = nums.size();
+
+            vector<int> dp(len, 0);
+            dp[0] = 1;
+
+            for (int i = 0; i < len - 1; ++i)
+            {
+                for (int j = 1; j <= nums[i] && i + j < len; ++j)
+                    dp[i + j] = dp[i + j - 1];
+            }
+            return dp.back();
+        }
+    };
 } // namespace dp
 
 //------------------------======================================================
