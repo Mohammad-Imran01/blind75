@@ -675,7 +675,34 @@ namespace dp
 } // namespace dp
 
 //------------------------======================================================
+namespace Graph
+{
+    struct Node
+    {
+        int val;
+        vector<Node *> neighbors;
+    };
+    class CloneGraph
+    {
+        unordered_map<Node *, Node *> mp;
 
+    public:
+        Node *solution(Node *node)
+        {
+            if (!node)
+                return nullptr;
+            if (mp.count(node))
+                return mp[node];
+            Node *copy = new Node;
+            copy->val = node->val;
+            mp[node] = copy;
+
+            for (Node *n : node->neighbors)
+                copy->neighbors.push_back(solution(n));
+            return copy;
+        }
+    };
+} // graph
 int main()
 {
 
