@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <cinttypes>
 #include <string.h>
+#include <functional>
 
 #define STARTS_WITH 786
 
@@ -700,6 +701,52 @@ namespace Graph
             for (Node *n : node->neighbors)
                 copy->neighbors.push_back(solution(n));
             return copy;
+        }
+    };
+
+    /* There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. */
+    class CourseSchedule
+    {
+        VI1 graph[2001];
+        int vis[2001];
+
+    public:
+        // 1. number of courses: true if no cycle.
+        // 2. the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+        bool canTake(int courseCount, const VI2 &pre)
+        {
+            memset(vis, 0, sizeof(vis));
+
+            for (const auto &p : pre)
+                graph[p.front()].push_back(p.back());
+
+            // to check if there is any cycle from a specific node
+            function<bool(int)> dfs = [&](int node)
+            {
+                if (vis[node] == 1)
+                    return true; // cycle found, you are visiting this node only;
+                if (vis[node] == 2)
+                    return false; // this node checked as not cyclic
+
+                vis[node] = 1;
+
+                for (const int &u : graph[node])
+                {
+                    if (dfs(u))
+                        return true;
+                }
+
+                vis[node] = 2;
+
+                return false;
+            };
+
+            for (int i = 0; i < courseCount; ++i)
+            {
+                if (dfs(i))
+                    return false; // there is a cycle
+            }
+            return true; // can take all courses.
         }
     };
 } // graph
