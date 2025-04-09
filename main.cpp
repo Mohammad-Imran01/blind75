@@ -705,14 +705,12 @@ namespace Graph
     };
 
     /* There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. */
-    class CourseSchedule
+    class CourseSchedulex
     {
         VI1 graph[2001];
         int vis[2001];
 
     public:
-        // 1. number of courses: true if no cycle.
-        // 2. the pair [0, 1], indicates that to take course 0 you have to first take course 1.
         bool canTake(int courseCount, const VI2 &pre)
         {
             memset(vis, 0, sizeof(vis));
@@ -747,6 +745,57 @@ namespace Graph
                     return false; // there is a cycle
             }
             return true; // can take all courses.
+        }
+    };
+
+    class PacificAtlanticWaterFlow
+    {
+    private:
+        bool vis[201][201];
+        int m, n;
+
+        VI2 moves{{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+
+        bool isValid(int r, int c)
+        {
+            return r >= 0 && c >= 0 && r < m && c < n;
+        }
+        void help(const VI2 &graph, int r, int c, bool &pac, bool &atl)
+        {
+            if (!isValid(r, c) || vis[r][c])
+                return;
+            vis[r][c] = true;
+
+            if (r == 0 || c == 0)
+                pac = true;
+            if (r == m - 1 || c == n - 1)
+                atl = true;
+
+            for (const auto &move : moves)
+            {
+                int row = r + move[0], col = c + move[1];
+                if (isValid(row, col) && graph[row][col] <= graph[r][c])
+                    help(graph, row, col, pac, atl);
+            }
+        }
+
+    public:
+        VI2 solution(const VI2 &graph)
+        {
+            m = graph.size(), n = graph.front().size();
+            VI2 res;
+            for (int i = 0; i < m; ++i)
+            {
+                for (int j = 0; j < n; ++j)
+                {
+                    memset(vis, false, sizeof(vis));
+                    bool pac = false, atl = false;
+                    help(graph, i, j, pac, atl);
+                    if (pac && atl)
+                        res.push_back({i, j});
+                }
+            }
+            return res;
         }
     };
 } // graph
