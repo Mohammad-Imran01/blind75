@@ -800,6 +800,39 @@ namespace Graph
             return res;
         }
     };
+
+    class NumberOfIslands
+    {
+        int m, n;
+        VI2 moves{{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+
+    private:
+        void help(VI2 &graph, int row, int col)
+        {
+            if (row >= m || col >= n || row < 0 || col < 0 || !graph[row][col])
+                return;
+            graph[row][col] = false;
+            for (const auto &move : moves)
+                help(graph, row + move[0], col + move[1]);
+        }
+
+    public:
+        int solution(VI2 graph)
+        {
+            m = graph.size(), n = graph[0].size();
+            int res{};
+            for (int i = 0; i < m; ++i)
+            {
+                for (int j = 0; j < n; ++j)
+                {
+                    res += graph[i][j];
+                    help(graph, i, j);
+                }
+            }
+
+            return res;
+        }
+    };
 } // graph
 int main()
 {
