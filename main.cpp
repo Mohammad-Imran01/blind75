@@ -748,6 +748,7 @@ namespace Graph
         }
     };
 
+    // Provides a solution to determine all grid cells in a matrix from which water can flow to both the Pacific and Atlantic oceans.It uses depth - first search(DFS) to explore valid paths based on elevation constraints and returns the coordinates of such cells.class PacificAtlanticWaterFlow
     class PacificAtlanticWaterFlow
     {
     private:
@@ -780,6 +781,7 @@ namespace Graph
         }
 
     public:
+        // Takes a 2D vector graph as input and returns a 2D vector of coordinates where water can flow to both the Pacific and Atlantic oceans. It iterates through each cell in the grid, using a helper function to determine if the cell satisfies the conditions for both oceans, and collects the valid coordinates in the result.
         VI2 solution(const VI2 &graph)
         {
             m = graph.size(), n = graph.front().size();
