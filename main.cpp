@@ -801,9 +801,13 @@ namespace Graph
         }
     };
 
+    // ---------------------------------------------------------=====================================
+    // The Graph::NumberOfIslands class provides functionality to calculate the number of connected components(islands) in a 2D grid represented as a binary matrix.It uses depth - first search(DFS) to traverse and mark visited cells, with the main logic implemented in the solution method.
     class NumberOfIslands
     {
-        int m, n;
+
+        int m,
+            n;
         VI2 moves{{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
 
     private:
@@ -828,6 +832,35 @@ namespace Graph
                     res += graph[i][j];
                     help(graph, i, j);
                 }
+            }
+
+            return res;
+        }
+    };
+
+    // --------------------------------------------------=========================================
+    // Graph::LongestConsecutive is a class that provides functionality to solve the problem of finding the length of the longest consecutive sequence in a given list of integers.It includes a public method solve that takes a vector of integers, removes duplicates, sorts the sequence, and calculates the length of the longest consecutive subsequence.
+
+    class LongestConsecutive
+    {
+    public:
+        int
+        solve(VI1 seq)
+        {
+            if (seq.empty())
+                return 0;
+            unordered_set<int> st(seq.begin(), seq.end());
+            seq = VI1(st.begin(), st.end());
+            sort(seq.begin(), seq.end());
+
+            const int len = seq.size();
+
+            int res = 1, curr = 1;
+
+            for (int i = 1; i < len; ++i)
+            {
+                curr = (seq[i] - 1 == seq[i - 1]) ? curr + 1 : 1;
+                res = max(res, curr);
             }
 
             return res;
