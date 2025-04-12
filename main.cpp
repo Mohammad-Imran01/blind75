@@ -866,6 +866,68 @@ namespace Graph
             return res;
         }
     };
+
+    // The Graph::AlienDictionary class provides functionality to determine the order of characters in an alien language based on a given dictionary of words.It constructs a directed graph to represent character precedence, performs a depth - first search to detect cycles, and derives a valid character order if possible.class AlienDictionary
+    class AlienDictionary
+    {
+    private:
+        unordered_map<char, vector<char>> graph;
+        int vis[26];
+        string res;
+
+    private:
+        bool dfs(char node)
+        {
+            if (vis[node - 'a'] == 1)
+                return true; // found loop
+            if (vis[node - 'a'] == 2)
+                return false; // ok done
+            vis[node - 'a'] = 1;
+
+            for (char c : graph[node])
+                if (dfs(c))
+                    return true;
+
+            vis[node - 'a'] = 2;
+            res += node;
+
+            return false;
+        }
+
+    public:
+        string findOrder(string dict[], int N, int K)
+        {
+            for (int i = 0; i < N; ++i)
+                for (char c : dict[i])
+                    graph[c] = vector<char>();
+
+            for (int i = 0; i < N - 1; ++i)
+            {
+                string s1 = dict[i], s2 = dict[i + 1];
+                const int len = min(s1.size(), s2.size());
+                bool found = false;
+                for (int j = 0; j < len; ++j)
+                {
+                    if (s1[j] != s2[j])
+                    {
+                        graph[s1[j]].push_back(s2[j]);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found && s1.size() > s2.size())
+                    return "";
+            }
+            for (auto it = graph.begin(); it != graph.end(); ++it)
+                if (dfs(it->first))
+                    return "";
+
+            reverse(begin(res), end(res));
+
+            return res;
+        }
+    };
+
 } // graph
 int main()
 {
