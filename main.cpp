@@ -12,6 +12,8 @@
 #define STARTS_WITH 786
 
 using namespace std;
+
+// VI2 is a type alias for a two-dimensional std::vector of integers, where both the inner and outer vectors use the default std::allocator. It simplifies the declaration of nested vectors for managing 2D integer data in C++.
 using VI2 = vector<vector<int>>;
 using VI1 = vector<int>;
 
@@ -928,6 +930,54 @@ namespace Graph
         }
     };
 
+    // Validates whether a given graph with n nodes and a list of edges forms a valid tree. It uses depth-first search (DFS) to check for cycles and ensures all nodes are connected, leveraging an adjacency list and a visited array for its operations.
+    class ValidGraphTre
+    {
+    private:
+        unordered_map<int, VI1> graph;
+        int vis[101];
+
+    private:
+        bool dfs(int node, int par)
+        {
+            if (vis[node] == 1)
+                return true;
+            vis[node] = 1;
+
+            for (const auto &__node : graph[node])
+            {
+                if (__node == par)
+                    continue;
+                if (dfs(__node, node))
+                    return true;
+            }
+            return false;
+        }
+
+    public:
+        bool validate(int n, VI2 edges)
+        {
+            if (n == 0)
+                return false;
+            memset(vis, 0, sizeof(vis));
+            for (const VI1 &edge : edges)
+            {
+                graph[edge[0]].push_back(edge[1]);
+                graph[edge[1]].push_back(edge[0]);
+            }
+
+            if (dfs(0, -1))
+                return false;
+
+            for (int i = 0; i < n; ++i)
+            {
+                if (vis[i] == 0)
+                    return false;
+            }
+
+            return true;
+        }
+    };
 } // graph
 int main()
 {
