@@ -931,7 +931,7 @@ namespace Graph
     };
 
     // Validates whether a given graph with n nodes and a list of edges forms a valid tree. It uses depth-first search (DFS) to check for cycles and ensures all nodes are connected, leveraging an adjacency list and a visited array for its operations.
-    class ValidGraphTre
+    class ValidGraphTree
     {
     private:
         unordered_map<int, VI1> graph;
@@ -948,8 +948,7 @@ namespace Graph
             {
                 if (__node == par)
                     continue;
-                if (dfs(__node, node))
-                    return true;
+                dfs(__node, node);
             }
             return false;
         }
@@ -978,6 +977,49 @@ namespace Graph
             return true;
         }
     };
+    // calculate the number of connected components in an undirected graph.It uses depth - first search(DFS) to traverse the graph, represented as an adjacency list, and determines the number of components based on unvisited nodes.private : vector<bool> vis;
+    class NumberOfComponent
+    {
+        unordered_map<int, vector<int>> graph;
+        vector<bool> vis;
+        int res = 0;
+
+        void dfs(int node, int par)
+        {
+            if (vis[node])
+                return;
+            vis[node] = true;
+
+            for (const auto &__node : graph[node])
+            {
+                if (__node == par)
+                    continue;
+                dfs(__node, node);
+            }
+        }
+
+    public:
+        int findNumberOfComponent(int E, int V, vector<vector<int>> &edges)
+        {
+            for (const auto &edge : edges)
+            {
+                graph[edge[0]].push_back(edge[1]);
+                graph[edge[1]].push_back(edge[0]);
+            }
+            vis = vector<bool>(V, false);
+
+            for (int i = 0; i < V; ++i)
+            {
+                if (!vis[i])
+                {
+                    ++res;
+                    dfs(i, -1);
+                }
+            }
+            return res;
+        }
+    };
+
 } // graph
 int main()
 {
