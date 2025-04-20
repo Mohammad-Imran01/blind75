@@ -1071,13 +1071,9 @@ namespace overlapping
             {
                 auto &last = res.back();
                 if (arr[i][0] <= last[1])
-                {
                     last[1] = max(last[1], arr[i][1]);
-                }
                 else
-                {
                     res.push_back(arr.at(i));
-                }
             }
             return res;
         }
