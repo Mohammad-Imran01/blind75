@@ -1024,7 +1024,8 @@ namespace Graph
 
 namespace overlapping
 {
-    class IntertInterval
+    // Merge a new interval into a list of existing intervals, ensuring that overlapping intervals are combined into a single continuous range.The solve method takes a vector of intervals and a new interval, processes them to merge overlaps, and returns the updated list of intervals.class InsertInterval
+    class InsertInterval
     {
     public:
         VI2 solve(VI2 intervals, VI1 newInterval)
@@ -1050,6 +1051,34 @@ namespace overlapping
             while (ind < len)
                 res.push_back(intervals[ind++]);
 
+            return res;
+        }
+    };
+
+    class MergeInterval
+    {
+    public:
+        VI2 solve(const VI2 &arr)
+        {
+            if (arr.empty())
+                return VI2();
+            VI2 res;
+            const int len = arr.size();
+
+            res.push_back(arr.front());
+
+            for (int i = 1; i < len; ++i)
+            {
+                auto &last = res.back();
+                if (arr[i][0] <= last[1])
+                {
+                    last[1] = max(last[1], arr[i][1]);
+                }
+                else
+                {
+                    res.push_back(arr.at(i));
+                }
+            }
             return res;
         }
     };
