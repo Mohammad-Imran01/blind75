@@ -1021,6 +1021,40 @@ namespace Graph
     };
 
 } // graph
+
+namespace overlapping
+{
+    class IntertInterval
+    {
+    public:
+        VI2 solve(VI2 intervals, VI1 newInterval)
+        {
+            const int len = intervals.size();
+
+            int ind = 0;
+            VI2 res;
+
+            while (ind < len && intervals[ind][1] < newInterval.front())
+                res.push_back(intervals[ind++]);
+
+            while (ind < len && intervals[ind][0] <= newInterval[1])
+            {
+                newInterval[0] = min(newInterval[0], intervals[ind][0]);
+                newInterval[1] = max(newInterval[1], intervals[ind][1]);
+
+                ++ind;
+            }
+
+            res.push_back(newInterval);
+
+            while (ind < len)
+                res.push_back(intervals[ind++]);
+
+            return res;
+        }
+    };
+};
+
 int main()
 {
     return 0;
