@@ -8,6 +8,7 @@
 #include <cinttypes>
 #include <string.h>
 #include <functional>
+#include <stack>
 
 #define STARTS_WITH 786
 
@@ -1108,7 +1109,7 @@ namespace overlapping
     // class provides methods to solve the problem of finding the missing and repeating numbers in an array of integers. It includes two implemented approaches: solveNestedLoop, which uses nested loops to count occurrences, and solveExtraSpace, which uses an auxiliary array for tracking counts, with a partially implemented solveSum method commented out.
     class MissingAndRepeatingNumber
     {
-        public:
+    public:
         VI1 solveNestedLoop(const VI1 &arr)
         {
             if (arr.empty())
@@ -1151,8 +1152,85 @@ namespace overlapping
         // }
     };
 };
+namespace LinkedList
+{
+    // Represents a node in a linked list, containing a pointer to the next node(next) and an integer value(val).
+    struct Node
+    {
+        Node *next;
+        int val;
+    };
+
+    // Provides multiple methods to reverse a linked list
+    class Reverse
+    {
+    public:
+        Node *reverseWithVector(Node *head)
+        {
+            if (!head)
+                return head;
+            vector<Node *> temp;
+            while (head)
+            {
+                temp.emplace_back(head);
+                head = head->next;
+            }
+
+            reverse(temp.begin(), temp.end());
+
+            for (int i = 1; i < temp.size(); ++i)
+            {
+                temp[i - 1]->next = temp[i];
+            }
+            temp.back()->next = nullptr;
+            return temp.front();
+        }
+        Node *reverseWithStack(Node *head)
+        {
+            if (!head)
+                return head;
+            stack<Node *> st;
+            while (head)
+            {
+                st.push(head);
+                head = head->next;
+            }
+            head = st.top();
+            Node *temp = head;
+            st.pop();
+            while (st.size())
+            {
+                head->next = st.top();
+                st.pop();
+                head = head->next;
+            }
+            head->next = nullptr;
+
+            return temp;
+        }
+        Node *reverseLoop(Node *head)
+        {
+            if (!head)
+                return head;
+            Node *prev = nullptr;
+            while (head)
+            {
+                Node *next = head->next;
+                head->next = prev;
+                prev = head;
+                head = next;
+            }
+            return prev;
+        }
+    };
+}
 
 int main()
 {
+    LinkedList::Node *head = nullptr;
+    LinkedList::Reverse rev;
+    rev.reverseLoop(head);
+
+    cout << "\n\n*************** Exiting the  main function -------------------";
     return 0;
 }
