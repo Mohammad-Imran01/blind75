@@ -1079,6 +1079,31 @@ namespace overlapping
             return res;
         }
     };
+
+    // return the minimum number of intervals to remove from a collection of intervals (represented as VI2) to ensure no overlapping intervals remain. The method sorts the intervals by their end points and uses a greedy algorithm to determine the count of non-overlapping intervals.
+    class EraseNonOverLapping
+    {
+    public:
+        int solve(VI2 arr) noexcept
+        {
+            if (arr.empty())
+                return 0;
+            std::sort(begin(arr), end(arr), [](const VI1 &a, const VI1 &b)
+                      { return a.back() < b.back(); });
+            int count = 1;
+            int lastEnd = arr.front().back();
+            const int len = arr.size();
+            for (int i = 1; i < len; ++i)
+            {
+                if (arr[i][0] >= lastEnd)
+                {
+                    lastEnd = arr[i][1];
+                    ++count;
+                }
+            }
+            return len - count;
+        }
+    };
 };
 
 int main()
