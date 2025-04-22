@@ -1104,6 +1104,52 @@ namespace overlapping
             return len - count;
         }
     };
+
+    // class provides methods to solve the problem of finding the missing and repeating numbers in an array of integers. It includes two implemented approaches: solveNestedLoop, which uses nested loops to count occurrences, and solveExtraSpace, which uses an auxiliary array for tracking counts, with a partially implemented solveSum method commented out.
+    class MissingAndRepeatingNumber
+    {
+        public:
+        VI1 solveNestedLoop(const VI1 &arr)
+        {
+            if (arr.empty())
+                return {};
+            int rep = 0, mis = 0;
+            for (int i = 1; i <= arr.size(); ++i)
+            {
+                int cnt = 0;
+                for (int j = 0; j < arr.size(); ++j)
+                {
+                    if (i == arr[j])
+                        ++cnt;
+                }
+                if (cnt == 0)
+                    mis = i;
+                if (cnt == 2)
+                    rep = i;
+            }
+            return {mis, rep};
+        }
+        VI1 solveExtraSpace(const VI1 &arr)
+        {
+            if (arr.empty())
+                return {};
+            int rep = 0, mis = 0;
+            VI1 temp(arr.size() + 1, 0);
+            for (const int &a : arr)
+                ++temp[a];
+            for (int i = 1; i <= arr.size(); ++i)
+            {
+                if (arr[i] > 1)
+                    rep = i;
+                if (arr[i] < 1)
+                    mis = i;
+            }
+            return {mis, rep};
+        }
+        // VI1 solveSum(const VI1& arr) {
+        //     if(arr.empty())
+        // }
+    };
 };
 
 int main()
