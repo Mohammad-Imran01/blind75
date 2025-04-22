@@ -1055,6 +1055,7 @@ namespace overlapping
         }
     };
 
+    /*Merge overlapping intervals from a given list of intervals. Its solve method takes a 2D vector of intervals, merges overlapping ones, and returns the resulting list of merged intervals.*/
     class MergeInterval
     {
     public:
