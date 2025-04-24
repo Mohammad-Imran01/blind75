@@ -1158,8 +1158,13 @@ namespace LinkedList
     // Represents a node in a linked list, containing a pointer to the next node(next) and an integer value(val).
     struct Node
     {
+    public:
         Node *next;
         int val;
+
+    public:
+        Node(Node *__next) : val(0), next(__next) {}
+        Node(int __val = 0, Node *__next = nullptr) : val(__val), next(__next) {}
     };
 
     // Provides multiple methods to reverse a linked list
@@ -1338,6 +1343,23 @@ namespace LinkedList
             return root->next;
         }
     };
+
+    Node *removeKthNodeFromLast(Node *head, int k)
+    {
+        head = new Node(head);
+        Node
+            *fast = head->next,
+            *slow = head;
+        while (fast)
+        {
+            fast = fast->next;
+            if (k < 1)
+                slow = slow->next;
+            --k;
+        }
+        slow->next = slow->next->next;
+        return head->next;
+    }
 }
 
 int main()
