@@ -1223,6 +1223,83 @@ namespace LinkedList
             return prev;
         }
     };
+
+    // Detect cycles in a linked list.It includes a solve method that uses the Floyd's Cycle Detection Algorithm (tortoise and hare approach) to determine if a cycle exists in the list by checking if two pointers meet.
+    class DetectCycle
+    {
+    public:
+        bool solve(Node *head)
+        {
+            auto *temp = head;
+            while (temp && temp->next)
+            {
+                temp = temp->next->next;
+                head = head->next;
+                if (head == temp)
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    // Merge two sorted linked lists into a single sorted linked list. It offers two methods: solveUsingVector, which uses a vector and sorting, and solveUsingTwoPointers, which employs a two-pointer technique for efficient merging.
+    class MergeSortedList
+    {
+        vector<Node *> nodes;
+        void push(Node *head)
+        {
+            while (head)
+            {
+                nodes.push_back(head);
+                head = head->next;
+            }
+        }
+
+    public:
+        Node *solveUsingVector(Node *h1, Node *h2)
+        {
+            if (!h1)
+                return h2;
+            if (!h2)
+                return h1;
+
+            push(h1);
+            push(h2);
+
+            std::sort(nodes.begin(), nodes.end(),
+                      [](Node *a, Node *b)
+                      {
+                          return a->val < b->val;
+                      });
+            for (int i = 1; i < nodes.size(); ++i)
+                nodes[i - 1]->next = nodes[i];
+            nodes.back()->next = nullptr;
+            return nodes.front();
+        }
+        Node *solveUsingTwoPointers(Node *h1, Node *h2)
+        {
+            Node *root = new Node;
+            Node *temp = root;
+
+            while (h1 && h2)
+            {
+                if (h1->val <= h2->val)
+                {
+                    temp->next = h1;
+                    h1 = h1->next;
+                }
+                else
+                {
+                    temp->next = h2;
+                    h2 = h2->next;
+                }
+                temp = temp->next;
+            }
+            temp->next = h1 ? h1 : h2;
+
+            return root->next;
+        }
+    };
 }
 
 int main()
