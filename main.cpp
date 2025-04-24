@@ -1266,11 +1266,8 @@ namespace LinkedList
             push(h1);
             push(h2);
 
-            std::sort(nodes.begin(), nodes.end(),
-                      [](Node *a, Node *b)
-                      {
-                          return a->val < b->val;
-                      });
+            std::sort(nodes.begin(), nodes.end(), [](Node *a, Node *b)
+                      { return a->val < b->val; });
             for (int i = 1; i < nodes.size(); ++i)
                 nodes[i - 1]->next = nodes[i];
             nodes.back()->next = nullptr;
