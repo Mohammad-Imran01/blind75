@@ -9,6 +9,7 @@
 #include <string.h>
 #include <functional>
 #include <stack>
+#include <queue>
 
 #define STARTS_WITH 786
 
@@ -1304,6 +1305,37 @@ namespace LinkedList
             for (Node *&node : nodes)
                 res = solveUsingTwoPointers(res, node);
             return res;
+        }
+
+        // Merges multiple sorted linked lists into a single sorted linked list. It uses a priority queue with a custom comparator to efficiently combine the nodes from the input lists and returns the head of the merged list.
+        Node *mergeListWithPQueue(vector<Node *> nodes)
+        {
+            function<bool(Node *, Node *)> cmp = [](Node *a, Node *b)
+            {
+                return a->val > b->val;
+            };
+            priority_queue<Node *, vector<Node *>, decltype(cmp)> pq;
+
+            for (auto node : nodes)
+            {
+                while (node)
+                {
+                    pq.push(node);
+                    node = node->next;
+                }
+            }
+
+            Node *root = new Node();
+            auto *temp = root;
+
+            while (pq.size())
+            {
+                temp->next = pq.top();
+                temp = temp->next;
+                pq.pop();
+            }
+            temp->next = nullptr;
+            return root->next;
         }
     };
 }
