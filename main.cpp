@@ -1296,7 +1296,15 @@ namespace LinkedList
 
             return root->next;
         }
-        
+
+        // merges multiple sorted linked lists into a single sorted linked list using a two - pointer approach, returning the head of the resulting merged list.
+        Node *mergeList(vector<Node *> nodes)
+        {
+            Node *res = nullptr;
+            for (Node *&node : nodes)
+                res = solveUsingTwoPointers(res, node);
+            return res;
+        }
     };
 }
 
