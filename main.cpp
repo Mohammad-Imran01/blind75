@@ -1243,7 +1243,7 @@ namespace LinkedList
     };
 
     // Merge two sorted linked lists into a single sorted linked list. It offers two methods: solveUsingVector, which uses a vector and sorting, and solveUsingTwoPointers, which employs a two-pointer technique for efficient merging.
-    class MergeSortedListṇ
+    class MergeSortedLists
     {
         vector<Node *> nodes;
         void push(Node *head)
@@ -1296,6 +1296,7 @@ namespace LinkedList
 
             return root->next;
         }
+        
     };
 }
 
