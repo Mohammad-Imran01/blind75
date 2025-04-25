@@ -1360,6 +1360,40 @@ namespace LinkedList
         slow->next = slow->next->next;
         return head->next;
     }
+
+    class ReorderList
+    {
+    public:
+        void solve(Node *head)
+        {
+            if (!head || !head->next)
+                return;
+
+            auto *temp = head;
+            stack<Node *> st;
+
+            int len = 0;
+
+            while (temp)
+            {
+                st.push(temp);
+                temp = temp->next;
+                ++len;
+            }
+
+            temp = head;
+            for (int i = 0; i < len / 2; ++i)
+            {
+                auto *t = st.top();
+                st.pop();
+                t->next = temp->next;
+                temp->next = t;
+                temp = t->next;
+            }
+            if (temp)
+                temp->next = nullptr;
+        }
+    };
 }
 
 int main()
