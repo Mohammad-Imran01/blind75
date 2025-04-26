@@ -1561,6 +1561,26 @@ namespace Matrix
 
 namespace String
 {
+    // calculates the length of the longest substring without repeating characters in a given string.It uses a sliding window technique with a boolean vector to track visited characters efficiently.
+    class LongestNonRepeatingSubstring
+    {
+    public:
+        int solve(string s)
+        {
+            vector<bool> vis(128, false);
+            int res = 0;
+            int left = 0;
+            for (int right = 0; right < s.length(); ++right)
+            {
+                while (vis[s[right]])
+                    vis[s[left++]] = false;
+
+                vis[s[right]] = true;
+                res = max(res, right + 1 - left);
+            }
+            return res;
+        }
+    };
 } // string
 
 int main()
