@@ -1558,6 +1558,11 @@ namespace Matrix
         }
     };
 } // matrix
+
+namespace String
+{
+} // string
+
 int main()
 {
     LinkedList::Node *head = nullptr;
