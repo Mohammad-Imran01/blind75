@@ -1395,7 +1395,52 @@ namespace LinkedList
         }
     };
 }
+// linkedlist
 
+namespace Matrix
+{
+    // Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+    class TurnZero
+    {
+    public:
+        void solve(VI2 mat)
+        {
+            if (mat.empty())
+                return;
+
+            const int
+                m = mat.size(),
+                n = mat.front().size();
+            set<int> rows, cols;
+
+            for (int i = 0; i < m; ++i)
+            {
+                for (int j = 0; j < n; ++j)
+                {
+                    if (mat[i][j] == 0)
+                    {
+                        rows.insert(i);
+                        cols.insert(j);
+                    }
+                }
+            }
+            for (auto row : rows)
+            {
+                for (int col = 0; col < n; ++col)
+                {
+                    mat[row][col] = 0;
+                }
+            }
+            for (auto col : cols)
+            {
+                for (int row = 0; row < m; ++row)
+                {
+                    mat[row][col] = 0;
+                }
+            }
+        }
+    };
+} // matrix
 int main()
 {
     LinkedList::Node *head = nullptr;
