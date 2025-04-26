@@ -1440,6 +1440,47 @@ namespace Matrix
             }
         }
     };
+
+    void SpiralPrint(VI2 mat, bool printResult = true)
+    {
+        if (mat.empty())
+            return;
+        const int m = mat.size();
+        const int n = mat.front().size();
+        int
+            top = 0,
+            right = n - 1,
+            bottom = m - 1,
+            left = 0;
+        const int len = m * n;
+
+        VI1 res(len);
+        int ind = 0;
+
+        while (ind < len)
+        {
+            for (int col = left; col <= right && (ind < len); ++col)
+                res[ind++] = mat[top][col];
+            ++top;
+
+            for (int row = top; row <= bottom && (ind < len); ++row)
+                res[ind++] = mat[row][right];
+            --right;
+
+            for (int col = right; col >= left && (ind < len); --col)
+                res[ind++] = mat[bottom][col];
+            --bottom;
+
+            for (int row = bottom; row >= top && (ind < len); --row)
+                res[ind++] = mat[row][left];
+            ++left;
+        }
+
+        if (printResult)
+            for (int element : res)
+                std::cout << element << " ";
+    }
+
 } // matrix
 int main()
 {
