@@ -1486,6 +1486,32 @@ namespace Matrix
         }
     };
 
+    // Rotate a square matrix 90 degrees clockwise.Its solve method takes a 2D vector(VI2) as input, performs the rotation, and updates the matrix in place.
+    class Rotate90
+    {
+    public:
+        void solve(VI2 mat)
+        {
+            if (mat.empty())
+                return;
+
+            const int n = mat.size();
+            auto res = VI2(n, VI1(n, 0));
+
+            int col = n - 1;
+            for (int i = 0; i < n; ++i)
+            {
+                int r = 0;
+                for (int j = 0; j < n; ++j)
+                {
+                    res[r++][col] = mat[i][j];
+                }
+                --col;
+            }
+            mat = res;
+        }
+    };
+
 } // matrix
 int main()
 {
