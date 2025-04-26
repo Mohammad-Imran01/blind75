@@ -16,8 +16,10 @@
 using namespace std;
 
 // VI2 is a type alias for a two-dimensional std::vector of integers, where both the inner and outer vectors use the default std::allocator. It simplifies the declaration of nested vectors for managing 2D integer data in C++.
-using VI2 = vector<vector<int>>;
 using VI1 = vector<int>;
+using VI2 = vector<VI1>;
+using VC1 = vector<char>;
+using VC2 = vector<VC1>;
 
 //------------------------======================================================
 // Contains several functions to solve problems of the Array section from the Blind 75 problem set.
@@ -1512,6 +1514,49 @@ namespace Matrix
         }
     };
 
+    // search for a given word in a 2D grid of characters. It uses a depth-first search (DFS) algorithm to determine if the word can be constructed by sequentially adjacent cells, ensuring no cell is reused in the same word path.
+
+    class WordSearch
+    {
+    private:
+        int m, n;
+
+    private:
+        bool dfs(VC2 board, string name, int r, int c, int ind)
+        {
+            if (ind >= name.size())
+                return true;
+            if (r < 0 || c < 0 || r >= m || c >= n || board[r][c] != name[ind])
+                return false;
+
+            board[r][c] = '@';
+
+            bool found =
+                dfs(board, name, r + 1, c, ind + 1) ||
+                dfs(board, name, r - 1, c, ind + 1) ||
+                dfs(board, name, r, c + 1, ind + 1) ||
+                dfs(board, name, r, c - 1, ind + 1);
+
+            board[r][c] = name[ind];
+
+            return found;
+        }
+
+    public:
+        bool find(VC2 board, string name)
+        {
+            if (board.empty() || name.empty())
+                return false;
+            m = board.size();
+            n = board[0].size();
+
+            for (int i = 0; i < m; ++i)
+                for (int j = 0; j < n; ++j)
+                    if (board[i][j] == name.front() && dfs(board, name, i, j, 0))
+                        return true;
+            return false;
+        }
+    };
 } // matrix
 int main()
 {
