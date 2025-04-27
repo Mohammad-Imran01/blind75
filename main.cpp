@@ -1581,7 +1581,28 @@ namespace String
             return res;
         }
     };
-} // string
+    class CharacterReplacement
+    {
+    public:
+        int solve(string s, int k)
+        {
+            int res = 0, maxCount = 0, left = 0;
+            int len = s.size();
+            int arr[26];
+            memset(arr, 0, sizeof(arr));
+
+            for (int right = 0; right < len; ++right)
+            {
+                ++arr[s[right] - 'A'];
+                maxCount = max(maxCount, arr[s[right] - 'A']);
+                while ((right - left + 1) - maxCount > k)
+                    --arr[s[left++] - 'A'];
+                res = max(res, right - left + 1);
+            }
+            return res;
+        }
+    };
+} // string 
 
 int main()
 {
