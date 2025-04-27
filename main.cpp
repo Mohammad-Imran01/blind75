@@ -1143,9 +1143,9 @@ namespace overlapping
                 ++temp[a];
             for (int i = 1; i <= arr.size(); ++i)
             {
-                if (arr[i] > 1)
+                if (temp[i] > 1)
                     rep = i;
-                if (arr[i] < 1)
+                if (temp[i] < 1)
                     mis = i;
             }
             return {mis, rep};
