@@ -1581,6 +1581,8 @@ namespace String
             return res;
         }
     };
+
+    // determines the length of the longest substring of a given string s that can be transformed into a substring with all identical characters by replacing at most k characters.The implementation uses a sliding window technique to efficiently calculate the result
     class CharacterReplacement
     {
     public:
@@ -1602,7 +1604,48 @@ namespace String
             return res;
         }
     };
-} // string 
+
+    class Anagram
+    {
+    public:
+        bool solve(string s, string t)
+        {
+            if (s.size() != t.size())
+                return false;
+            int arr[26];
+            memset(arr, 0, sizeof(arr));
+            for (int i = 0; i < s.size(); ++i)
+            {
+                ++arr[s[i] - 'a'];
+                --arr[t[i] - 'a'];
+            }
+            for (int i = 0; i < 26; ++i)
+                if (arr[i])
+                    return false;
+            return true;
+        }
+    };
+
+    // Group anagrams from a list of strings.Its solve method takes a vector of strings, groups them into vectors of anagrams, and returns the result as a vector of these grouped anagrams.
+    class GroupAnagram
+    {
+    public:
+        vector<vector<string>> solve(vector<string> strs)
+        {
+            vector<vector<string>> res;
+            unordered_map<string, vector<string>> mp;
+            for (const string &str : strs)
+            {
+                auto s = str;
+                sort(s.begin(), s.end());
+                mp[s].push_back(str);
+            }
+            for (const auto &[_, group] : mp)
+                res.push_back(group);
+            return res;
+        }
+    };
+} // string
 
 int main()
 {
