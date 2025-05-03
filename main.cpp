@@ -1645,6 +1645,26 @@ namespace String
             return res;
         }
     };
+
+    class ValidateParenthesis
+    {
+    public:
+        bool solve(string s)
+        {
+            stack<char> st;
+
+            for (char ch : s)
+            {
+                if (ch == '(' || ch == '{' || ch == '[')
+                    st.push(ch);
+                else if (st.size() && ((ch == ')' && st.top() == '(') || (ch == '}' && st.top() == '{') || (ch == ']' && st.top() == '[')))
+                    st.pop();
+                else
+                    return false;
+            }
+            return st.empty();
+        }
+    };
 } // string
 
 int main()
