@@ -1646,6 +1646,7 @@ namespace String
         }
     };
 
+    // validate whether a given string containing parentheses, braces, and brackets is balanced.It includes a solve method that uses a stack - based approach to ensure every opening symbol has a corresponding and correctly ordered closing symbol.
     class ValidateParenthesis
     {
     public:
