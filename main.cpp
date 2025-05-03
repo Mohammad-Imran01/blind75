@@ -1666,6 +1666,14 @@ namespace String
             return st.empty();
         }
     };
+
+    class Palindrome
+    {
+    public:
+    bool solveWithToString(int n) {
+        if(n < 0 ) return false;
+    }
+    };
 } // string
 
 int main()
