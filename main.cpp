@@ -1731,6 +1731,35 @@ namespace String
             return s.substr(start, resLen);
         }
     };
+
+    class CountPalindrome
+    {
+        bool pd(const string &s, int beg, int end)
+        {
+            while (beg < end)
+            {
+                if (s[beg] != s[end])
+                    return false;
+                ++beg, --end;
+            }
+            return true;
+        }
+
+    public:
+        int solve(string s)
+        {
+            int res = 0;
+
+            for (int i = 0; i < s.size(); ++i)
+            {
+                for (int j = i; j < s.size(); ++j)
+                {
+                    res += pd(s, i, j);
+                }
+            }
+            return res;
+        }
+    };
 } // string
 
 int main()
