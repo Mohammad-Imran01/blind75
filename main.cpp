@@ -1761,6 +1761,33 @@ namespace String
             return res;
         }
     };
+
+    class EncodeDecode
+    {
+        vector<pair<int, int>> vp;
+
+    public:
+        string encode(vector<string> arr)
+        {
+            string s;
+            for (const auto &a : arr)
+            {
+                vp.push_back({s.size(), a.size()});
+            }
+            return s;
+        }
+        vector<string> decode(string s)
+        {
+            vector<string> res;
+
+            for (auto [start, len] : vp)
+            {
+                res.push_back(s.substr(start, len));
+            }
+
+            return res;
+        }
+    };
 } // string
 
 int main()
