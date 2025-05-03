@@ -1694,6 +1694,42 @@ namespace String
             return left == x;
         }
     };
+
+    class LongestPalindromicSubstring
+    {
+    public:
+        string solve(string s)
+        {
+            int start = 0, resLen = 1;
+            const int len = s.size();
+
+            for (int ind = 0; ind < len; ++ind)
+            {
+                int l = ind, r = ind;
+                while (l >= 0 && r < len && s[l] == s[r])
+                {
+                    if ((r - l + 1) > resLen)
+                    {
+                        resLen = r - l + 1;
+                        start = l;
+                    }
+                    --l, ++r;
+                }
+                l = ind, r = ind + 1;
+                while (l >= 0 && r < len && s[l] == s[r])
+                {
+                    if ((r - l + 1) > resLen)
+                    {
+                        resLen = r - l + 1;
+                        start = l;
+                    }
+                    --l, ++r;
+                }
+            }
+
+            return s.substr(start, resLen);
+        }
+    };
 } // string
 
 int main()
