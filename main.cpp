@@ -1695,6 +1695,7 @@ namespace String
         }
     };
 
+    // computes the longest palindromic substring within a given string.It uses a two - pointer approach to expand around potential palindrome centers, considering both odd - and even - length palindromes.
     class LongestPalindromicSubstring
     {
     public:
