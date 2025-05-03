@@ -10,6 +10,7 @@
 #include <functional>
 #include <stack>
 #include <queue>
+#include <utility>
 
 #define STARTS_WITH 786
 
@@ -1670,9 +1671,28 @@ namespace String
     class Palindrome
     {
     public:
-    bool solveWithToString(int n) {
-        if(n < 0 ) return false;
-    }
+        bool solveWithToString(int n)
+        {
+            if (n < 0)
+                return false;
+            string left = to_string(n);
+            string right = {left.rbegin(), left.rend()};
+
+            return left == right;
+        }
+        bool solve(int x)
+        {
+            if (x < 0)
+                return false;
+            int left = 0, right = x;
+
+            while (right > 0)
+            {
+                left = left * 10 + right % 10;
+                right /= 10;
+            }
+            return left == x;
+        }
     };
 } // string
 
