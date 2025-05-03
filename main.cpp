@@ -1732,6 +1732,7 @@ namespace String
         }
     };
 
+    // Count the number of palindromic substrings in a given string.It includes a private helper method pd to check if a substring is a palindrome and a public method solve that iterates through all possible substrings to compute the total count of palindromic substrings.
     class CountPalindrome
     {
         bool pd(const string &s, int beg, int end)
