@@ -1803,6 +1803,7 @@ namespace Tree
         TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
     };
 
+    // calculate the maximum depth of a binary tree.The solve function uses recursion to traverse the tree and determine the depth by comparing the depths of the left and right subtrees.
     class MaxDepth
     {
     public:
@@ -1811,6 +1812,20 @@ namespace Tree
             if (!root)
                 return 0;
             return 1 + max(solve(root->left), solve(root->right));
+        }
+    };
+
+    // Determine whether two binary trees are structurally identical and have the same node values. It includes a solve method that recursively compares the nodes of two trees to check for equality.
+    class SameTree
+    {
+    public:
+        bool solve(TreeNode *a, TreeNode *b)
+        {
+            if (!a)
+                return b == nullptr;
+            if (!b || a->val != b->val)
+                return false;
+            return solve(a->left) && solve(b->left);
         }
     };
 } // tree
