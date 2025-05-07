@@ -1829,6 +1829,7 @@ namespace Tree
         }
     };
 
+    // Recursively swaps the left and right child nodes of each subtree, starting from the root, and returns the modified tree.
     class InvertTree
     {
     public:
@@ -1841,10 +1842,9 @@ namespace Tree
                 invert(root->right);
             }
             return root;
-        }
-    };
-} // tree
-
+        };
+    }; // tree
+}
 int main()
 {
     LinkedList::Node *head = nullptr;
