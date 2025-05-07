@@ -1828,6 +1828,21 @@ namespace Tree
             return solve(a->left) && solve(b->left);
         }
     };
+
+    class InvertTree
+    {
+    public:
+        TreeNode *invert(TreeNode *root)
+        {
+            if (root)
+            {
+                swap(root->left, root->right);
+                invert(root->left);
+                invert(root->right);
+            }
+            return root;
+        }
+    };
 } // tree
 
 int main()
