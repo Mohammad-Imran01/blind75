@@ -1845,23 +1845,31 @@ namespace Tree
         };
     }; // tree
 
-    class LevelOrder {
-        public:
-        VI2 solve(TreeNode* root) {
-            if(!root) return {{}};
+    // Perform a level - order traversal of a binary tree.Its solve method takes the root of a binary tree as input and returns a 2D vector containing the values of the tree nodes grouped by each level.
+    class LevelOrder
+    {
+    public:
+        VI2 solve(TreeNode *root)
+        {
+            if (!root)
+                return {{}};
             VI2 res;
-            queue<TreeNode*> q;
+            queue<TreeNode *> q;
             q.push(root);
 
-            while(q.size()) {
+            while (q.size())
+            {
                 int len = q.size();
                 vector<int> c;
-                while(len--) {
-                    auto* t = q.front();
+                while (len--)
+                {
+                    auto *t = q.front();
                     c.push_back(t->val);
                     q.pop();
-                    if(t->left) q.push(t->left);
-                    if(t->right) q.push(t->right);
+                    if (t->left)
+                        q.push(t->left);
+                    if (t->right)
+                        q.push(t->right);
                 }
                 res.push_back(c);
             }
