@@ -1825,7 +1825,7 @@ namespace Tree
                 return b == nullptr;
             if (!b || a->val != b->val)
                 return false;
-            return solve(a->left) && solve(b->left);
+            return solve(a->left, b->left) && solve(b->right, a->right);
         }
     };
 
@@ -1844,6 +1844,30 @@ namespace Tree
             return root;
         };
     }; // tree
+
+    class LevelOrder {
+        public:
+        VI2 solve(TreeNode* root) {
+            if(!root) return {{}};
+            VI2 res;
+            queue<TreeNode*> q;
+            q.push(root);
+
+            while(q.size()) {
+                int len = q.size();
+                vector<int> c;
+                while(len--) {
+                    auto* t = q.front();
+                    c.push_back(t->val);
+                    q.pop();
+                    if(t->left) q.push(t->left);
+                    if(t->right) q.push(t->right);
+                }
+                res.push_back(c);
+            }
+            return res;
+        }
+    };
 }
 int main()
 {
