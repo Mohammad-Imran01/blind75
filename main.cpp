@@ -1877,6 +1877,7 @@ namespace Tree
         }
     };
 
+    // Determine if one binary tree is a subtree of another. It includes a private helper method same to compare two trees for structural and value equality and a public method isSubtree to recursively check if a given tree is a subtree of another.
     class CheckSubTree
     {
         bool same(TreeNode *r, TreeNode *c)
