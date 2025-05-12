@@ -1876,6 +1876,28 @@ namespace Tree
             return res;
         }
     };
+
+    class CheckSubTree
+    {
+        bool same(TreeNode *r, TreeNode *c)
+        {
+            if (!r || !c)
+                return c == r;
+            if (r->val != c->val)
+                return false;
+            return same(r->left, c->left) && same(r->right, c->right);
+        }
+
+    public:
+        bool isSubtree(TreeNode *root, TreeNode *subRoot)
+        {
+            if (!root || !subRoot)
+                return subRoot == root;
+            if (same(root, subRoot))
+                return true;
+            return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+        }
+    };
 }
 int main()
 {
