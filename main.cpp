@@ -1899,6 +1899,21 @@ namespace Tree
             return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
         }
     };
+
+    class IsBinaryTree
+    {
+        bool help(TreeNode *root, long long mini = LLONG_MIN, long long maxi = LLONG_MAX)
+        {
+            if (!root)
+                return true;
+            if (root->val <= mini || root->val >= maxi)
+                return false;
+            return help(root->left, mini, root->val) && help(root->right, root->val, maxi);
+        }
+
+    public:
+        bool solve(TreeNode *root) { return help(root); }
+    };
 }
 int main()
 {
