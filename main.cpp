@@ -1916,8 +1916,33 @@ namespace Tree
         bool solve(TreeNode *root) { return help(root); }
     };
 
+    class KthSmallestNodeVal
+    {
+        int res, cnt = 0;
+        void help(TreeNode *root, int k)
+        {
+            if (!root)
+                return;
+            help(root->left, k);
 
-    
+            ++cnt;
+            if (cnt == k)
+            {
+                res = root->val;
+                return;
+            }
+
+            help(root->right, k);
+        }
+
+    public:
+        int solve(TreeNode *root, int k)
+        {
+            help(root, k);
+            return res;
+        }
+    };
+
 }
 int main()
 {
