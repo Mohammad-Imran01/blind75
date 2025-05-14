@@ -1900,6 +1900,7 @@ namespace Tree
         }
     };
 
+    // determine whether a given binary tree satisfies the properties of a binary search tree (BST). It includes a private helper function help to recursively validate the tree and a public method solve that serves as the entry point for this validation.
     class IsBinaryTree
     {
         bool help(TreeNode *root, long long mini = LLONG_MIN, long long maxi = LLONG_MAX)
@@ -1914,6 +1915,9 @@ namespace Tree
     public:
         bool solve(TreeNode *root) { return help(root); }
     };
+
+
+    
 }
 int main()
 {
