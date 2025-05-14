@@ -1916,6 +1916,7 @@ namespace Tree
         bool solve(TreeNode *root) { return help(root); }
     };
 
+    // Find the k - th smallest value in a binary search tree.It uses an in - order traversal to count nodes and retrieve the desired value through its solve method.
     class KthSmallestNodeVal
     {
         int res, cnt = 0;
