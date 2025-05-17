@@ -11,6 +11,7 @@
 #include <stack>
 #include <queue>
 #include <utility>
+#include <array>
 
 #define STARTS_WITH 786
 
@@ -1958,6 +1959,81 @@ namespace Tree
             if (left && right)
                 return root;
             return left ? left : right;
+        }
+    };
+
+    // Trie data structure for storing and searching words composed of lowercase letters. It provides methods to insert words, search for exact matches or prefixes, and internally manages nodes with an array-based structure to represent character transitions.
+    class Trie
+    {
+    private:
+        struct Node
+        {
+            bool isEnd = false;
+            array<Node *, 26> A;
+            Node() { A.fill(nullptr); }
+            Node *at(char c)
+            {
+                return at(c - 'a');
+            }
+            Node *at(int ind)
+            {
+                if (ind < 0 || ind >= A.size())
+                    return nullptr;
+                return A.at(ind);
+            }
+
+            bool has(int ind)
+            {
+                return at(ind) != nullptr;
+            }
+            bool has(char c)
+            {
+                return at(c) != nullptr;
+            }
+
+            Node *set(char c)
+            {
+                return A.at(c - 'a') = new Node();
+            }
+            Node *set(int ind)
+            {
+                if (ind > A.size() || ind < 0)
+                    return nullptr;
+                return A.at(ind) = new Node();
+            }
+        } node;
+
+    public:
+        void insert(const string &word)
+        {
+            Node *t = &node;
+            for (int i = 0; i < word.size(); ++i)
+            {
+                Node *temp = t->at(word[i]);
+                if (!temp)
+                    temp = t->set(word[i]);
+                t = temp;
+            }
+            t->isEnd = true;
+        }
+        bool search(const string &word, bool checkPrefix = false)
+        {
+            if (word.empty())
+                return false;
+            Node *t = &node;
+            for (int i = 0; i < word.size(); ++i)
+            {
+                Node *temp = t->at(word[i]);
+                if (!temp)
+                    return false;
+                t = temp;
+            }
+            return t && (t->isEnd || checkPrefix);
+        }
+
+        bool hasPrefix(const string &prefix)
+        {
+            return search(prefix, true);
         }
     };
 }
