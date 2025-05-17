@@ -1965,7 +1965,7 @@ namespace Tree
     // Trie data structure for storing and searching words composed of lowercase letters. It provides methods to insert words, search for exact matches or prefixes, and internally manages nodes with an array-based structure to represent character transitions.
     class Trie
     {
-        
+
     private:
         struct Node
         {
@@ -2037,12 +2037,53 @@ namespace Tree
             return search(prefix, true);
         }
     };
+
+    class MostFrequentK
+    {
+    public:
+        vector<int> solve(vector<int> arr, int k)
+        {
+            if (arr.empty())
+                return {};
+
+            vector<int> res;
+            unordered_map<int, int> mp;
+
+            auto cmp = [](const pair<int, int> &a, const pair<int, int> &b)
+            {
+                return a.second < b.second;
+            };
+            priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);
+
+            for (int num : arr)
+                ++mp[num];
+            for (const auto &a : mp)
+                pq.push(a);
+
+            while (pq.size() && k--)
+            {
+                res.push_back(pq.top().first);
+                pq.pop();
+            }
+            return res;
+        }
+    };
 }
 int main()
 {
-    LinkedList::Node *head = nullptr;
-    LinkedList::Reverse rev;
-    rev.reverseLoop(head);
+    cout << "\n\n*************** Exiting the  main function -------------------\n\n";
+
+    // LinkedList::Node *head = nullptr;
+    // LinkedList::Reverse rev;
+    // rev.reverseLoop(head);
+
+    vector<int> q = {11, 3, 4, 2, 5, 1, 2, 3, 1, 1, 1, 4, 7, 5, 6, 4, 5, 6, 4, 5, 6};
+    Tree::MostFrequentK k;
+    q = k.solve(q, 5);
+    for (auto i : q)
+        cout << "\n"
+             << i;
+    // cout << q.front() << ", " << q.back();
 
     cout << "\n\n*************** Exiting the  main function -------------------";
     return 0;
