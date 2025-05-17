@@ -1944,6 +1944,21 @@ namespace Tree
         }
     };
 
+    class LowestCommonAncestor
+    {
+        TreeNode *solve(TreeNode *root, TreeNode *a, TreeNode *b)
+        {
+            if (!root || root == a || root == b)
+                return root;
+
+            TreeNode *left = solve(root->left, a, b);
+            TreeNode *right = solve(root->right, a, b);
+
+            if (left && right)
+                return root;
+            return left ? left : right;
+        }
+    };
 }
 int main()
 {
