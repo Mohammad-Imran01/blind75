@@ -2038,6 +2038,7 @@ namespace Tree
         }
     };
 
+    // Find the k most frequent elements in the vector.It uses a hash map to count frequencies and a priority queue to efficiently retrieve the most frequent elements.
     class MostFrequentK
     {
     public:
