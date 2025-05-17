@@ -1965,6 +1965,7 @@ namespace Tree
     // Trie data structure for storing and searching words composed of lowercase letters. It provides methods to insert words, search for exact matches or prefixes, and internally manages nodes with an array-based structure to represent character transitions.
     class Trie
     {
+        
     private:
         struct Node
         {
