@@ -1944,6 +1944,7 @@ namespace Tree
         }
     };
 
+    // Determine the lowest common ancestor of two nodes in a binary tree.It includes a method solve that recursively traverses the tree to find the common ancestor by checking the presence of the target nodes in the left and right subtrees.
     class LowestCommonAncestor
     {
         TreeNode *solve(TreeNode *root, TreeNode *a, TreeNode *b)
