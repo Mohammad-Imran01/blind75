@@ -6,7 +6,6 @@
 #include <set>
 #include <unordered_set>
 #include <cinttypes>
-#include <string.h>
 #include <functional>
 #include <stack>
 #include <queue>
