@@ -10,6 +10,7 @@
 #include <stack>
 #include <queue>
 #include <utility>
+#include <array>
 
 #define STARTS_WITH 786
 
@@ -1824,7 +1825,7 @@ namespace Tree
                 return b == nullptr;
             if (!b || a->val != b->val)
                 return false;
-            return solve(a->left) && solve(b->left);
+            return solve(a->left, b->left) && solve(b->right, a->right);
         }
     };
 
@@ -1843,12 +1844,246 @@ namespace Tree
             return root;
         };
     }; // tree
+
+    // Perform a level - order traversal of a binary tree.Its solve method takes the root of a binary tree as input and returns a 2D vector containing the values of the tree nodes grouped by each level.
+    class LevelOrder
+    {
+    public:
+        VI2 solve(TreeNode *root)
+        {
+            if (!root)
+                return {{}};
+            VI2 res;
+            queue<TreeNode *> q;
+            q.push(root);
+
+            while (q.size())
+            {
+                int len = q.size();
+                vector<int> c;
+                while (len--)
+                {
+                    auto *t = q.front();
+                    c.push_back(t->val);
+                    q.pop();
+                    if (t->left)
+                        q.push(t->left);
+                    if (t->right)
+                        q.push(t->right);
+                }
+                res.push_back(c);
+            }
+            return res;
+        }
+    };
+
+    // Determine if one binary tree is a subtree of another. It includes a private helper method same to compare two trees for structural and value equality and a public method isSubtree to recursively check if a given tree is a subtree of another.
+    class CheckSubTree
+    {
+        bool same(TreeNode *r, TreeNode *c)
+        {
+            if (!r || !c)
+                return c == r;
+            if (r->val != c->val)
+                return false;
+            return same(r->left, c->left) && same(r->right, c->right);
+        }
+
+    public:
+        bool isSubtree(TreeNode *root, TreeNode *subRoot)
+        {
+            if (!root || !subRoot)
+                return subRoot == root;
+            if (same(root, subRoot))
+                return true;
+            return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+        }
+    };
+
+    // determine whether a given binary tree satisfies the properties of a binary search tree (BST). It includes a private helper function help to recursively validate the tree and a public method solve that serves as the entry point for this validation.
+    class IsBinaryTree
+    {
+        bool help(TreeNode *root, long long mini = LLONG_MIN, long long maxi = LLONG_MAX)
+        {
+            if (!root)
+                return true;
+            if (root->val <= mini || root->val >= maxi)
+                return false;
+            return help(root->left, mini, root->val) && help(root->right, root->val, maxi);
+        }
+
+    public:
+        bool solve(TreeNode *root) { return help(root); }
+    };
+
+    // Find the k - th smallest value in a binary search tree.It uses an in - order traversal to count nodes and retrieve the desired value through its solve method.
+    class KthSmallestNodeVal
+    {
+        int res, cnt = 0;
+        void help(TreeNode *root, int k)
+        {
+            if (!root)
+                return;
+            help(root->left, k);
+
+            ++cnt;
+            if (cnt == k)
+            {
+                res = root->val;
+                return;
+            }
+
+            help(root->right, k);
+        }
+
+    public:
+        int solve(TreeNode *root, int k)
+        {
+            help(root, k);
+            return res;
+        }
+    };
+
+    // Determine the lowest common ancestor of two nodes in a binary tree.It includes a method solve that recursively traverses the tree to find the common ancestor by checking the presence of the target nodes in the left and right subtrees.
+    class LowestCommonAncestor
+    {
+        TreeNode *solve(TreeNode *root, TreeNode *a, TreeNode *b)
+        {
+            if (!root || root == a || root == b)
+                return root;
+
+            TreeNode *left = solve(root->left, a, b);
+            TreeNode *right = solve(root->right, a, b);
+
+            if (left && right)
+                return root;
+            return left ? left : right;
+        }
+    };
+
+    // Trie data structure for storing and searching words composed of lowercase letters. It provides methods to insert words, search for exact matches or prefixes, and internally manages nodes with an array-based structure to represent character transitions.
+    class Trie
+    {
+
+    private:
+        struct Node
+        {
+            bool isEnd = false;
+            array<Node *, 26> A;
+            Node() { A.fill(nullptr); }
+            Node *at(char c)
+            {
+                return at(c - 'a');
+            }
+            Node *at(int ind)
+            {
+                if (ind < 0 || ind >= A.size())
+                    return nullptr;
+                return A.at(ind);
+            }
+
+            bool has(int ind)
+            {
+                return at(ind) != nullptr;
+            }
+            bool has(char c)
+            {
+                return at(c) != nullptr;
+            }
+
+            Node *set(char c)
+            {
+                return A.at(c - 'a') = new Node();
+            }
+            Node *set(int ind)
+            {
+                if (ind > A.size() || ind < 0)
+                    return nullptr;
+                return A.at(ind) = new Node();
+            }
+        } node;
+
+    public:
+        void insert(const string &word)
+        {
+            Node *t = &node;
+            for (int i = 0; i < word.size(); ++i)
+            {
+                Node *temp = t->at(word[i]);
+                if (!temp)
+                    temp = t->set(word[i]);
+                t = temp;
+            }
+            t->isEnd = true;
+        }
+        bool search(const string &word, bool checkPrefix = false)
+        {
+            if (word.empty())
+                return false;
+            Node *t = &node;
+            for (int i = 0; i < word.size(); ++i)
+            {
+                Node *temp = t->at(word[i]);
+                if (!temp)
+                    return false;
+                t = temp;
+            }
+            return t && (t->isEnd || checkPrefix);
+        }
+
+        bool hasPrefix(const string &prefix)
+        {
+            return search(prefix, true);
+        }
+    };
+
+    // Find the k most frequent elements in the vector.It uses a hash map to count frequencies and a priority queue to efficiently retrieve the most frequent elements.
+    class MostFrequentK
+    {
+    public:
+        vector<int> solve(vector<int> arr, int k)
+        {
+            if (arr.empty())
+                return {};
+
+            vector<int> res;
+            unordered_map<int, int> mp;
+
+            auto cmp = [](const pair<int, int> &a, const pair<int, int> &b)
+            {
+                return a.second < b.second;
+            };
+            priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);
+
+            for (int num : arr)
+                ++mp[num];
+            for (const auto &a : mp)
+                pq.push(a);
+
+            while (pq.size() && k--)
+            {
+                res.push_back(pq.top().first);
+                pq.pop();
+            }
+            return res;
+        }
+    };
 }
 int main()
 {
-    LinkedList::Node *head = nullptr;
-    LinkedList::Reverse rev;
-    rev.reverseLoop(head);
+    cout << "\n\n*************** Exiting the  main function -------------------\n\n";
+
+    // LinkedList::Node *head = nullptr;
+    // LinkedList::Reverse rev;
+    // rev.reverseLoop(head);
+
+    vector<int> q = {11, 3, 4, 2, 5, 1, 2, 3, 1, 1, 1, 4, 7, 5, 6, 4, 5, 6, 4, 5, 6};
+    Tree::MostFrequentK k;
+    q = k.solve(q, 5);
+    for (auto i : q)
+        cout << "\n"
+             << i;
+    // cout << q.front() << ", " << q.back();
 
     cout << "\n\n*************** Exiting the  main function -------------------";
     return 0;
