@@ -11,6 +11,8 @@
 #include <queue>
 #include <utility>
 #include <array>
+#include <memory>
+#include <cstring>
 
 #define STARTS_WITH 786
 
