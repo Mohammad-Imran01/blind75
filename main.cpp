@@ -24,11 +24,10 @@ using VI2 = vector<VI1>;
 using VC1 = vector<char>;
 using VC2 = vector<VC1>;
 
-//------------------------======================================================
+//-------------------- ================================================= -------------------------//
 // Contains several functions to solve problems of the Array section from the Blind 75 problem set.
 namespace Array
 {
-
     /* 1. Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
        You may assume that each input would have exactly one solution, and you may not use the same element twice.
        You can return the answer in any order. */
